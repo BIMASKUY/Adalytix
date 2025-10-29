@@ -58,8 +58,8 @@ export async function POST(request: NextRequest) {
 
         console.log('Successfully connected to Snowflake');
 
-        // Execute query to show all tables
-        const sqlQuery = 'SHOW TABLES;';
+        // Execute query to get data from HOURLY_ANALYTICS table
+        const sqlQuery = 'SELECT * FROM BIMA_DUMMY_DB.PUBLIC.HOURLY_ANALYTICS LIMIT 100;';
 
         console.log('Executing query:', sqlQuery);
 

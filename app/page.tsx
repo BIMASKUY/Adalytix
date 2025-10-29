@@ -76,10 +76,10 @@ export default function Home() {
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
-            Snowflake Connection Test
+            Snowflake Analytics Dashboard
           </h1>
           <p className="mt-2 text-sm text-gray-600">
-            Listing all tables in BIMA_DUMMY_DB.PUBLIC
+            Data from BIMA_DUMMY_DB.PUBLIC.HOURLY_ANALYTICS
           </p>
         </div>
       </header>
@@ -129,13 +129,13 @@ export default function Home() {
                 <svg className="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <p className="font-medium">Successfully connected! Found {data.length} tables in Snowflake</p>
+                <p className="font-medium">Successfully loaded {data.length} rows from HOURLY_ANALYTICS</p>
               </div>
             </div>
             
-            {/* Tables List */}
+            {/* Data Table */}
             <div className="bg-white p-4 sm:p-6 lg:p-8 rounded-xl shadow-lg border border-gray-200">
-              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">Available Tables</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-6">Hourly Analytics Data</h2>
               <div className="overflow-x-auto -mx-4 sm:mx-0">
                 <div className="inline-block min-w-full align-middle">
                   <div className="overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5 sm:rounded-lg">
