@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Snowflake Next.js POC",
-  description: "POC for querying Snowflake and visualizing data",
+  title: "Snowflake Chat Assistant",
+  description: "Chat with your Snowflake data using natural language queries",
 };
 
 export default function RootLayout({
