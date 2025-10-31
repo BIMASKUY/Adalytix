@@ -1,10 +1,10 @@
-# Snowflake Next.js POC
+# Snowflake Chatbot Interface
 
-A proof-of-concept Next.js application that queries Snowflake using the SQL REST API and visualizes analytics data with line charts and data tables.
+A Next.js application that provides a conversational interface to query Snowflake data using natural language. Ask questions about your marketing campaigns and get intelligent responses with data visualizations.
 
 ## Overview
 
-This POC demonstrates direct integration between a Next.js frontend and Snowflake's SQL REST API. It fetches data from the `BIMA_DUMMY_DB.PUBLIC.HOURLY_ANALYTICS` table and displays it in both visual (line chart) and tabular formats.
+This application demonstrates an AI-powered chatbot interface that connects to Snowflake and allows users to query marketing campaign data using natural language. It fetches data from the `SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN` table and provides intelligent responses with interactive charts.
 
 **Note:** This is a POC focused on functionality. For production use, implement proper security measures, OAuth authentication, and backend API architecture.
 
@@ -41,7 +41,7 @@ SNOWFLAKE_PASSWORD=your_password
 SNOWFLAKE_WAREHOUSE=your_warehouse_name
 
 # Database name
-SNOWFLAKE_DATABASE=BIMA_DUMMY_DB
+SNOWFLAKE_DATABASE=SNOWFLAKEHACKATHON
 
 # Schema name
 SNOWFLAKE_SCHEMA=PUBLIC
@@ -82,33 +82,52 @@ Ensure your Snowflake account has the required database and table:
 
 ```sql
 -- Create database (if not exists)
-CREATE DATABASE IF NOT EXISTS BIMA_DUMMY_DB;
+CREATE DATABASE IF NOT EXISTS SNOWFLAKEHACKATHON;
 
 -- Use the database
-USE DATABASE BIMA_DUMMY_DB;
+USE DATABASE SNOWFLAKEHACKATHON;
 
 -- Create schema (if not exists)
 CREATE SCHEMA IF NOT EXISTS PUBLIC;
 
--- Create the analytics table
-CREATE TABLE IF NOT EXISTS BIMA_DUMMY_DB.PUBLIC.HOURLY_ANALYTICS (
-  DATE DATE,
-  TIME TIME,
-  METRIC NUMBER
+-- Create the marketing campaign table
+CREATE TABLE IF NOT EXISTS SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN (
+  campaign_id VARCHAR(50),
+  company VARCHAR(100),
+  campaign_type VARCHAR(50),
+  target_audience VARCHAR(100),
+  duration NUMBER,
+  channel_used VARCHAR(50),
+  conversion_rate NUMBER(5,2),
+  acquisition_cost NUMBER(10,2),
+  roi NUMBER(5,2),
+  location VARCHAR(100),
+  language VARCHAR(50),
+  clicks NUMBER,
+  impressions NUMBER,
+  engagement_score NUMBER(5,2),
+  customer_segment VARCHAR(50),
+  date DATE,
+  campaign_year NUMBER,
+  campaign_month NUMBER,
+  campaign_quarter NUMBER,
+  campaign_weekday VARCHAR(20),
+  roi_per_cost NUMBER(10,4),
+  engagement_ratio NUMBER(10,4),
+  cost_per_click NUMBER(10,2),
+  cost_per_engagement NUMBER(10,2),
+  audience_type VARCHAR(50),
+  roi_level VARCHAR(20),
+  engagement_level VARCHAR(20),
+  cost_efficiency VARCHAR(20),
+  is_high_roi BOOLEAN,
+  is_high_engagement BOOLEAN,
+  is_cost_efficient BOOLEAN,
+  performance_index NUMBER(10,4)
 );
 
--- Insert sample data
-INSERT INTO BIMA_DUMMY_DB.PUBLIC.HOURLY_ANALYTICS VALUES
-  ('2024-01-15', '08:00:00', 42.5),
-  ('2024-01-15', '09:00:00', 45.2),
-  ('2024-01-15', '10:00:00', 48.7),
-  ('2024-01-15', '11:00:00', 51.3),
-  ('2024-01-15', '12:00:00', 49.8),
-  ('2024-01-15', '13:00:00', 52.1),
-  ('2024-01-15', '14:00:00', 55.6),
-  ('2024-01-15', '15:00:00', 53.4),
-  ('2024-01-15', '16:00:00', 50.9),
-  ('2024-01-15', '17:00:00', 47.2);
+-- Insert sample data (you can add your own marketing campaign data)
+-- The application expects data in this table to answer questions about campaigns
 ```
 
 ### 4. Required Snowflake Permissions
@@ -120,19 +139,19 @@ Your Snowflake role must have the following permissions:
 GRANT USAGE ON WAREHOUSE <your_warehouse_name> TO ROLE <your_role_name>;
 
 -- Grant usage on database
-GRANT USAGE ON DATABASE BIMA_DUMMY_DB TO ROLE <your_role_name>;
+GRANT USAGE ON DATABASE SNOWFLAKEHACKATHON TO ROLE <your_role_name>;
 
 -- Grant usage on schema
-GRANT USAGE ON SCHEMA BIMA_DUMMY_DB.PUBLIC TO ROLE <your_role_name>;
+GRANT USAGE ON SCHEMA SNOWFLAKEHACKATHON.PUBLIC TO ROLE <your_role_name>;
 
 -- Grant select on table
-GRANT SELECT ON TABLE BIMA_DUMMY_DB.PUBLIC.HOURLY_ANALYTICS TO ROLE <your_role_name>;
+GRANT SELECT ON TABLE SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN TO ROLE <your_role_name>;
 ```
 
 **Minimum Required Permissions:**
 - `USAGE` on the warehouse (to execute queries)
 - `USAGE` on the database and schema (to access objects)
-- `SELECT` on the `HOURLY_ANALYTICS` table (to query data)
+- `SELECT` on the `MARKETING_CAMPAIGN` table (to query data)
 
 **Recommended Role:** Use a role like `ACCOUNTADMIN` for POC testing, but create a custom role with minimal permissions for production.
 
@@ -158,6 +177,45 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## How to Use the Chatbot
+
+Once the application is running, you can ask questions about your marketing campaigns in natural language:
+
+### Example Questions
+
+**ROI Analysis:**
+- "What's the average ROI?"
+- "Show me campaigns with high ROI"
+- "What's the best performing campaign?"
+
+**Conversion Rates:**
+- "What are the conversion rates?"
+- "Show me high conversion campaigns"
+
+**Cost Analysis:**
+- "What are the acquisition costs?"
+- "Which campaigns are most cost-efficient?"
+- "Show me low-cost campaigns"
+
+**Channel Performance:**
+- "Which channel performs best?"
+- "Show me social media campaigns"
+- "How do email campaigns perform?"
+
+**Engagement:**
+- "What's the engagement score?"
+- "Show me campaigns with high engagement"
+
+**General Queries:**
+- "How many campaigns are there?"
+- "Show me recent campaigns"
+- "What's the latest data?"
+
+The chatbot will analyze your question, query the appropriate data from Snowflake, and provide:
+- A natural language response with specific metrics
+- An interactive chart visualizing the data
+- Helpful suggestions for follow-up questions
 
 ## Troubleshooting
 
@@ -245,8 +303,8 @@ GRANT ROLE <your_role_name> TO USER <your_username>;
 **Symptom:** Error message: "Object does not exist" or similar.
 
 **Solutions:**
-- Verify the database exists: `SHOW DATABASES LIKE 'BIMA_DUMMY_DB';`
-- Verify the table exists: `SHOW TABLES LIKE 'HOURLY_ANALYTICS' IN BIMA_DUMMY_DB.PUBLIC;`
+- Verify the database exists: `SHOW DATABASES LIKE 'SNOWFLAKEHACKATHON';`
+- Verify the table exists: `SHOW TABLES LIKE 'MARKETING_CAMPAIGN' IN SNOWFLAKEHACKATHON.PUBLIC;`
 - Run the setup SQL from "Set Up Snowflake Database and Table" section
 - Check for typos in database/schema/table names
 
@@ -255,8 +313,8 @@ GRANT ROLE <your_role_name> TO USER <your_username>;
 **Symptom:** Application loads successfully but shows no data.
 
 **Solutions:**
-- Verify table has data: `SELECT COUNT(*) FROM BIMA_DUMMY_DB.PUBLIC.HOURLY_ANALYTICS;`
-- Insert sample data using the SQL from setup instructions
+- Verify table has data: `SELECT COUNT(*) FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN;`
+- Ensure your table has marketing campaign data
 - Check browser console for API errors
 
 #### 8. Environment Variables Not Loading
@@ -299,7 +357,7 @@ npm run dev
 
 3. **Test Snowflake Connection:**
    - Log into Snowflake web UI
-   - Run the query manually: `SELECT DATE, TIME, METRIC FROM BIMA_DUMMY_DB.PUBLIC.HOURLY_ANALYTICS LIMIT 10;`
+   - Run the query manually: `SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN LIMIT 10;`
    - Verify it returns data
 
 4. **Enable Verbose Logging:**
@@ -312,11 +370,19 @@ npm run dev
 ```
 project-root/
 ├── .env.local              # Snowflake credentials (not committed to git)
+├── .kiro/
+│   └── specs/
+│       └── snowflake-chatbot-interface/
+│           ├── requirements.md    # Feature requirements
+│           ├── design.md          # Design document
+│           ├── tasks.md           # Implementation tasks
+│           ├── test-results.md    # Test results
+│           └── ai-improvements.md # AI enhancement docs
 ├── app/
-│   ├── page.tsx           # Main dashboard with chart and table
+│   ├── page.tsx           # Chat interface with message handling
 │   ├── api/
 │   │   └── snowflake/
-│   │       └── route.ts   # API proxy to Snowflake
+│   │       └── route.ts   # API route with intelligent query mapping
 │   ├── layout.tsx         # Root layout
 │   └── globals.css        # Global styles
 ├── package.json           # Dependencies
@@ -327,9 +393,22 @@ project-root/
 
 - **Next.js 14+** - React framework with App Router
 - **TypeScript** - Type-safe JavaScript
-- **Recharts** - Chart visualization library
+- **Recharts** - Chart visualization library (Line, Bar, Pie charts)
 - **Tailwind CSS** - Utility-first CSS framework
-- **Snowflake SQL REST API** - Direct database queries
+- **Snowflake SDK** - Node.js connector for Snowflake
+- **React Hooks** - useState, useEffect, useRef for state management
+
+## Features
+
+- 🤖 **Natural Language Interface** - Ask questions in plain English
+- 📊 **Smart Data Visualization** - Automatic chart generation based on your question
+- 💬 **Conversational UI** - Chat-like interface with message history
+- 🎯 **Context-Aware Responses** - Intelligent answers with specific metrics
+- 📈 **Multiple Chart Types** - Line, bar, and pie charts
+- 🔄 **Real-time Queries** - Direct connection to Snowflake
+- 📱 **Responsive Design** - Works on desktop and mobile
+- ⚡ **Fast Performance** - Optimized queries and rendering
+- 🎨 **Modern UI** - Clean, professional interface with Tailwind CSS
 
 ## Security Considerations for Production
 
