@@ -42,37 +42,37 @@ function mapMessageToQuery(message: string): string {
   
   // High ROI campaigns
   if (lowerMessage.includes('high roi') || lowerMessage.includes('best roi') || lowerMessage.includes('top roi')) {
-    return 'SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN WHERE roi > 50 ORDER BY roi DESC LIMIT 50;';
+    return 'SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN WHERE roi > 50 ORDER BY roi DESC;';
   }
   
   // Conversion rate queries
   if (lowerMessage.includes('conversion') && (lowerMessage.includes('high') || lowerMessage.includes('best'))) {
-    return 'SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN ORDER BY conversion_rate DESC LIMIT 50;';
+    return 'SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN ORDER BY conversion_rate DESC;';
   }
   
   // Cost-related queries
   if (lowerMessage.includes('cost') && (lowerMessage.includes('low') || lowerMessage.includes('cheap'))) {
-    return 'SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN ORDER BY acquisition_cost ASC LIMIT 50;';
+    return 'SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN ORDER BY acquisition_cost ASC;';
   }
   
   // Channel-specific queries
   if (lowerMessage.includes('social media')) {
-    return "SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN WHERE channel_used = 'Social Media' LIMIT 100;";
+    return "SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN WHERE channel_used = 'Social Media';";
   }
   if (lowerMessage.includes('email')) {
-    return "SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN WHERE channel_used = 'Email' LIMIT 100;";
+    return "SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN WHERE channel_used = 'Email';";
   }
   if (lowerMessage.includes('search') || lowerMessage.includes('google')) {
-    return "SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN WHERE channel_used = 'Search' LIMIT 100;";
+    return "SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN WHERE channel_used = 'Search';";
   }
   
   // Time-based queries
   if (lowerMessage.includes('recent') || lowerMessage.includes('latest')) {
-    return 'SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN ORDER BY date DESC LIMIT 50;';
+    return 'SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN ORDER BY date DESC;';
   }
   
   // Default to all marketing campaigns
-  return 'SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN LIMIT 100;';
+  return 'SELECT * FROM SNOWFLAKEHACKATHON.PUBLIC.MARKETING_CAMPAIGN;';
 }
 
 // Subtask 6.3: Transform Snowflake results to ChatResponse format

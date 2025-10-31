@@ -48,6 +48,12 @@ SNOWFLAKE_SCHEMA=PUBLIC
 
 # Role to use for authentication
 SNOWFLAKE_ROLE=your_role_name
+
+# Agent name
+SNOWFLAKE_AGENT=your-snowflake-agent
+
+# PAT Token
+SNOWFLAKE_PAT_TOKEN=your-snowflake-pat-token
 ```
 
 #### Understanding Snowflake Account URL Format
@@ -369,15 +375,8 @@ npm run dev
 
 ```
 project-root/
-├── .env.local              # Snowflake credentials (not committed to git)
-├── .kiro/
-│   └── specs/
-│       └── snowflake-chatbot-interface/
-│           ├── requirements.md    # Feature requirements
-│           ├── design.md          # Design document
-│           ├── tasks.md           # Implementation tasks
-│           ├── test-results.md    # Test results
-│           └── ai-improvements.md # AI enhancement docs
+├── .env.local             # Snowflake credentials (not committed to git)
+├── .env.example           # Change file name to .env.local
 ├── app/
 │   ├── page.tsx           # Chat interface with message handling
 │   ├── api/
@@ -386,7 +385,7 @@ project-root/
 │   ├── layout.tsx         # Root layout
 │   └── globals.css        # Global styles
 ├── package.json           # Dependencies
-└── README.md             # This file
+└── README.md              # This file
 ```
 
 ## Technologies Used
